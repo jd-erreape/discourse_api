@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe DiscourseApi::API::Users do
-  subject { DiscourseApi::Client.new("http://localhost") }
+  subject { current_client }
 
   describe "#toggle_avatar" do
     it "needs to have a test written for it"
@@ -9,12 +9,12 @@ describe DiscourseApi::API::Users do
 
   describe "#user" do
     before do
-      stub_get("http://localhost/users/test_user.json").to_return(body: fixture("user.json"), headers: { content_type: "application/json" })
+      stub_get(current_client, "http://localhost/users/test_user.json").to_return(body: fixture("user.json"), headers: { content_type: "application/json" })
     end
 
     it "requests the correct resource" do
       subject.user("test_user")
-      expect(a_get("http://localhost/users/test_user.json")).to have_been_made
+      expect(a_get(current_client, "http://localhost/users/test_user.json")).to have_been_made
     end
 
     it "returns the requested user" do
@@ -41,13 +41,13 @@ describe DiscourseApi::API::Users do
 
   describe "#create_user" do
     before do
-      stub_post("http://localhost/users").to_return(body: fixture("user_create_success.json"), headers: { content_type: "application/json" })
-      stub_get("http://localhost/users/hp.json").to_return(body: {"value"=>"foo", "challenge"=>"bar"}.to_json, headers: { content_type: "application/json" })
+      stub_post(current_client, "http://localhost/users").to_return(body: fixture("user_create_success.json"), headers: { content_type: "application/json" })
+      stub_get(current_client, "http://localhost/users/hp.json").to_return(body: {"value"=>"foo", "challenge"=>"bar"}.to_json, headers: { content_type: "application/json" })
     end
 
     it "makes the post request" do
       subject.create_user :name => "Test User", :email => "test@example.com", :password => "P@ssword", :username => "test-user"
-      expect(a_post("http://localhost/users")).to have_been_made
+      expect(a_post(current_client, "http://localhost/users")).to have_been_made
     end
 
     it "returns success" do

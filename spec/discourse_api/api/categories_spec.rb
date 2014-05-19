@@ -1,16 +1,16 @@
 require 'spec_helper'
 
 describe DiscourseApi::API::Categories do
-  subject { DiscourseApi::Client.new("http://localhost") }
+  subject { current_client }
 
   describe "#categories" do
     before do
-      stub_get("http://localhost/categories.json").to_return(body: fixture("categories.json"), headers: { content_type: "application/json" })
+      stub_get(current_client, "http://localhost/categories.json").to_return(body: fixture("categories.json"), headers: { content_type: "application/json" })
     end
 
     it "requests the correct resource" do
       subject.categories
-      expect(a_get("http://localhost/categories.json")).to have_been_made
+      expect(a_get(current_client, "http://localhost/categories.json")).to have_been_made
     end
 
     it "returns the requested categories" do

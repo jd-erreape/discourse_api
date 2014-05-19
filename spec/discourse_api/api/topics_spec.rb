@@ -1,16 +1,16 @@
 require 'spec_helper'
 
 describe DiscourseApi::API::Topics do
-  subject { DiscourseApi::Client.new("http://localhost") }
+  subject { current_client }
 
   describe "#hot_topics" do
     before do
-      stub_get("http://localhost/hot.json").to_return(body: fixture("hot.json"), headers: { content_type: "application/json" })
+      stub_get(current_client, "http://localhost/hot.json").to_return(body: fixture("hot.json"), headers: { content_type: "application/json" })
     end
 
     it "requests the correct resource" do
       subject.hot_topics
-      expect(a_get("http://localhost/hot.json")).to have_been_made
+      expect(a_get(current_client, "http://localhost/hot.json")).to have_been_made
     end
 
     it "returns the requested topics" do
@@ -26,12 +26,12 @@ describe DiscourseApi::API::Topics do
 
   describe "#latest_topics" do
     before do
-      stub_get("http://localhost/latest.json").to_return(body: fixture("latest.json"), headers: { content_type: "application/json" })
+      stub_get(current_client, "http://localhost/latest.json").to_return(body: fixture("latest.json"), headers: { content_type: "application/json" })
     end
 
     it "requests the correct resource" do
       subject.latest_topics
-      expect(a_get("http://localhost/latest.json")).to have_been_made
+      expect(a_get(current_client, "http://localhost/latest.json")).to have_been_made
     end
 
     it "returns the requested topics" do
@@ -43,12 +43,12 @@ describe DiscourseApi::API::Topics do
 
   describe "#new_topics" do
     before do
-      stub_get("http://localhost/new.json").to_return(body: fixture("new.json"), headers: { content_type: "application/json" })
+      stub_get(current_client, "http://localhost/new.json").to_return(body: fixture("new.json"), headers: { content_type: "application/json" })
     end
 
     it "requests the correct resource" do
       subject.new_topics
-      expect(a_get("http://localhost/new.json")).to have_been_made
+      expect(a_get(current_client, "http://localhost/new.json")).to have_been_made
     end
 
     it "returns the requested topics" do
@@ -60,12 +60,12 @@ describe DiscourseApi::API::Topics do
 
   describe "#topic" do
     before do
-      stub_get("http://localhost/t/57.json").to_return(body: fixture("topic.json"), headers: { content_type: "application/json" })
+      stub_get(current_client, "http://localhost/t/57.json").to_return(body: fixture("topic.json"), headers: { content_type: "application/json" })
     end
 
     it "requests the correct resource" do
       subject.topic(57)
-      expect(a_get("http://localhost/t/57.json")).to have_been_made
+      expect(a_get(current_client, "http://localhost/t/57.json")).to have_been_made
     end
 
     it "returns the requested topic" do
@@ -77,12 +77,12 @@ describe DiscourseApi::API::Topics do
 
   describe "#topics_by" do
     before do
-      stub_get("http://localhost/topics/created-by/test_user.json").to_return(body: fixture("topics_created_by.json"), headers: { content_type: "application/json" })
+      stub_get(current_client, "http://localhost/topics/created-by/test_user.json").to_return(body: fixture("topics_created_by.json"), headers: { content_type: "application/json" })
     end
 
     it "requests the correct resource" do
       subject.topics_by('test_user')
-      expect(a_get("http://localhost/topics/created-by/test_user.json")).to have_been_made
+      expect(a_get(current_client, "http://localhost/topics/created-by/test_user.json")).to have_been_made
     end
 
     it "returns the requested topics" do
