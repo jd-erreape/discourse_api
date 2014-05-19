@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe DiscourseApi::Client do
-  subject { DiscourseApi::Client.new('http://localhost') }
+  subject { current_client }
 
   describe ".new" do
     it "requires a host argument" do
@@ -9,11 +9,11 @@ describe DiscourseApi::Client do
     end
 
     it "defaults api key to nil" do
-      expect(subject.api_key).to be_nil
+      expect(DiscourseApi::Client.new('http://localhost').api_key).to be_nil
     end
 
     it "defaults api username to nil" do
-      expect(subject.api_username).to be_nil
+      expect(DiscourseApi::Client.new('http://localhost').api_username).to be_nil
     end
 
     it "accepts an api key argument" do
@@ -63,32 +63,32 @@ describe DiscourseApi::Client do
 
   describe "#delete" do
     before do
-      stub_delete("http://localhost/test/delete").with(query: { deleted: "object" })
+      stub_delete(current_client, "http://localhost/test/delete").with(query: { deleted: "object" })
     end
     it "allows custom delete requests" do
       subject.delete("/test/delete", { deleted: "object" })
-      expect(a_delete("http://localhost/test/delete").with(query: { deleted: "object" })).to have_been_made
+      expect(a_delete(current_client, "http://localhost/test/delete").with(query: { deleted: "object" })).to have_been_made
     end
   end
 
   describe "#post" do
     before do
-      stub_post("http://localhost/test/post").with(body: { created: "object"})
+      stub_post(current_client, "http://localhost/test/post").with(body: { created: "object"})
     end
 
     it "allows custom post requests" do
       subject.post("/test/post", { created: "object" })
-      expect(a_post("http://localhost/test/post").with(body: { created: "object"})).to have_been_made
+      expect(a_post(current_client, "http://localhost/test/post").with(body: { created: "object"})).to have_been_made
     end
   end
 
   describe "#put" do
     before do
-      stub_put("http://localhost/test/put").with(body: { updated: "object" })
+      stub_put(current_client, "http://localhost/test/put").with(body: { updated: "object" })
     end
     it "allows custom delete requests" do
       subject.put("/test/put", { updated: "object" })
-      expect(a_put("http://localhost/test/put").with(body: { updated: "object" })).to have_been_made
+      expect(a_put(current_client, "http://localhost/test/put").with(body: { updated: "object" })).to have_been_made
     end
   end
 
